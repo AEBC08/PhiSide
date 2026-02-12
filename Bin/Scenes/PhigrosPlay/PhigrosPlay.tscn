@@ -1,0 +1,341 @@
+[gd_scene load_steps=39 format=3 uid="uid://digy3aqaht6ww"]
+
+[ext_resource type="Script" uid="uid://cf1x4arakhm4t" path="res://Bin/Scripts/PhigrosPlay/PhigrosPlay.cs" id="1_upqbm"]
+[ext_resource type="AudioStream" uid="uid://bhwgl7quf2ebc" path="res://Assets/ResourcePacks/Defaults/Phigros/Audios/Tap.wav" id="2_20b5g"]
+[ext_resource type="FontFile" uid="uid://c573ovyhoacpb" path="res://Assets/Fonts/MiSansMedium.ttf" id="2_abfjd"]
+[ext_resource type="Shader" uid="uid://byummtbwxd7sr" path="res://Bin/Shaders/BlurShader.gdshader" id="2_amrm1"]
+[ext_resource type="Texture2D" uid="uid://cphlc7d6mhd1k" path="res://Assets/ResourcePacks/Defaults/Phigros/Notes/Hold.png" id="2_e6ilx"]
+[ext_resource type="AudioStream" uid="uid://cfghoybp5s11e" path="res://Assets/ResourcePacks/Defaults/Phigros/Audios/Drag.wav" id="3_3r827"]
+[ext_resource type="Script" uid="uid://cih7cnqkaky24" path="res://Bin/Scripts/UI/FpsLabel.cs" id="3_amrm1"]
+[ext_resource type="Script" uid="uid://bxuylrnv5temq" path="res://Bin/Scripts/UI/SafeAreaBG.cs" id="3_ww7tv"]
+[ext_resource type="FontFile" uid="uid://w7mtbu7etap0" path="res://Assets/Fonts/UI/SegoeFluentIcons.ttf" id="4_abfjd"]
+[ext_resource type="AudioStream" uid="uid://cs76rc40syjsa" path="res://Assets/ResourcePacks/Defaults/Phigros/Audios/Flick.wav" id="4_ktlre"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e6ilx"]
+shader = ExtResource("2_amrm1")
+shader_parameter/Blur = 5.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ci263"]
+light_mode = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r2trh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abfjd"]
+bg_color = Color(0.6, 0.6, 0.6, 0.752941)
+border_width_right = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ytcki"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ayhje"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0k13q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7l3xl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ccmu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6m2cn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_abfjd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_20b5g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ww7tv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_02whf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0an4f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_53ghm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amrm1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3r827"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ci263"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xy4i7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wjqd7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ts7lb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e6ilx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ktlre"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1k41j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k40y6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dwqgl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lab8j"]
+
+[node name="PhigrosPlay" type="Node" node_paths=PackedStringArray("PauseMenu", "NameLabel", "LevelLabel", "Background", "MusicPlayer", "TabAudio", "DragAudio", "FlickAudio", "HoldAudio", "ComboBox", "PlayProgressBar", "ScoreLabel", "ComboLabel", "LinesNode", "EffectsNode")]
+script = ExtResource("1_upqbm")
+PauseMenu = NodePath("PauseMenu")
+NameLabel = NodePath("Darkening/UI/Name")
+LevelLabel = NodePath("Darkening/UI/Level")
+Background = NodePath("Background")
+MusicPlayer = NodePath("Audio/Music")
+TabAudio = NodePath("Audio/Tab")
+DragAudio = NodePath("Audio/Drag")
+FlickAudio = NodePath("Audio/Flick")
+HoldAudio = NodePath("Audio/Hold")
+ComboBox = NodePath("Darkening/UI/ComboBox")
+PlayProgressBar = NodePath("Darkening/UI/ProgressBar")
+ScoreLabel = NodePath("Darkening/UI/Score")
+ComboLabel = NodePath("Darkening/UI/ComboBox/Combo")
+LinesNode = NodePath("Darkening/Objects/Lines")
+EffectsNode = NodePath("Darkening/Objects/Effects")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="Tab" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_20b5g")
+
+[node name="Drag" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_3r827")
+
+[node name="Flick" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_ktlre")
+
+[node name="Hold" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_20b5g")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_e6ilx")
+expand_mode = 1
+
+[node name="Blur" type="ColorRect" parent="Background"]
+material = SubResource("ShaderMaterial_e6ilx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Darkening" type="ColorRect" parent="." node_paths=PackedStringArray("RootNode")]
+process_mode = 3
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.607843)
+script = ExtResource("3_ww7tv")
+RootNode = NodePath("..")
+
+[node name="Objects" type="Node2D" parent="Darkening"]
+process_mode = 1
+material = SubResource("CanvasItemMaterial_ci263")
+
+[node name="Lines" type="Node2D" parent="Darkening/Objects"]
+
+[node name="Effects" type="Node2D" parent="Darkening/Objects"]
+
+[node name="UI" type="Control" parent="Darkening"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Level" type="Label" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 35
+text = "Lv. ?"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Name" type="Label" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 35
+text = "Name"
+vertical_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_r2trh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_abfjd")
+value = 50.0
+show_percentage = false
+
+[node name="Score" type="Label" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 10.0
+offset_right = -20.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 50
+text = "0000000"
+horizontal_alignment = 2
+
+[node name="ComboBox" type="VBoxContainer" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 10.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = -20
+
+[node name="Combo" type="Label" parent="Darkening/UI/ComboBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 60
+text = "114514"
+horizontal_alignment = 1
+
+[node name="Mode" type="Label" parent="Darkening/UI/ComboBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 35
+text = "Auto play"
+horizontal_alignment = 1
+
+[node name="Pause" type="Button" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 15.0
+offset_top = 20.0
+theme_override_fonts/font = ExtResource("4_abfjd")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ytcki")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ayhje")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0k13q")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_7l3xl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_8ccmu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6m2cn")
+text = ""
+
+[node name="FPS" type="Label" parent="Darkening/UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = -54.0
+offset_right = 87.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_abfjd")
+theme_override_font_sizes/font_size = 40
+text = "FPS: Null"
+vertical_alignment = 1
+script = ExtResource("3_amrm1")
+
+[node name="PauseMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+
+[node name="Buttons" type="HBoxContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Quit" type="Button" parent="PauseMenu/Buttons"]
+layout_mode = 2
+tooltip_text = "退出"
+theme_override_fonts/font = ExtResource("4_abfjd")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_abfjd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_20b5g")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ww7tv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_02whf")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0an4f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_53ghm")
+text = ""
+
+[node name="Restart" type="Button" parent="PauseMenu/Buttons"]
+layout_mode = 2
+tooltip_text = "重新"
+theme_override_fonts/font = ExtResource("4_abfjd")
+theme_override_font_sizes/font_size = 90
+theme_override_styles/normal = SubResource("StyleBoxEmpty_amrm1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3r827")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ci263")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xy4i7")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_wjqd7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ts7lb")
+text = ""
+
+[node name="Continue" type="Button" parent="PauseMenu/Buttons"]
+layout_mode = 2
+tooltip_text = "继续"
+theme_override_fonts/font = ExtResource("4_abfjd")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_e6ilx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ktlre")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1k41j")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_k40y6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_dwqgl")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lab8j")
+text = ""

@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqb5kvelms0p1"]
+
+[ext_resource type="FontFile" uid="uid://c3l4r3trfj4uv" path="res://Assets/Fonts/UI/SegoeBootSemilight.ttf" id="2_kpuf1"]
+[ext_resource type="Shader" uid="uid://bgj7f8hqqqxtf" path="res://Bin/Shaders/UI/AcrylicShader.gdshader" id="3_bcg0e"]
+[ext_resource type="Script" uid="uid://dtk2nwfan26qf" path="res://Bin/Scripts/UI/FluentSpinner.cs" id="3_p6dtm"]
+[ext_resource type="FontFile" uid="uid://c573ovyhoacpb" path="res://Assets/Fonts/MiSansMedium.ttf" id="4_p6dtm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p6dtm"]
+shader = ExtResource("3_bcg0e")
+shader_parameter/blur_strength = 6.918
+shader_parameter/brightness = 0.765
+shader_parameter/saturation = 2.0
+shader_parameter/noise_amount = 0.02
+shader_parameter/opacity = 0.8
+
+[node name="Home" type="Node"]
+
+[node name="Spinner" type="Label" parent="."]
+offset_left = -368.0
+offset_top = 121.0
+offset_right = -235.0
+offset_bottom = 255.0
+theme_override_fonts/font = ExtResource("2_kpuf1")
+theme_override_font_sizes/font_size = 100
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_p6dtm")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_p6dtm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.08
+grow_horizontal = 2
+color = Color(0, 0, 0, 0.439216)
+
+[node name="Label" type="Label" parent="UI/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 10.0
+theme_override_fonts/font = ExtResource("4_p6dtm")
+theme_override_font_sizes/font_size = 50
+text = "PhiSide"
