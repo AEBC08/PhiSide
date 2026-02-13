@@ -1,2 +1,2 @@
 # PhiSide
-A Phigros simulator, Power by Godot engine
+A Phigros simulator, Powered by Godot engine
