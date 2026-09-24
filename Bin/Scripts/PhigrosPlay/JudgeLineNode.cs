@@ -34,8 +34,9 @@ public partial class JudgeLineNode : Node2D
     {
         LineSprite = GetNode<Sprite2D>("JudgeLine");
         NotesNode = GetNode<Node2D>("Notes");
-        // BPM 非正数（含 NaN）时按 1 处理，避免 T1Time/BeatTime 变成 Infinity/NaN 后传播
-        float bpm = LineData.Bpm > 0 ? LineData.Bpm : 1f;
+        // BPM 非有限值或非正数（含 NaN / Infinity）时按 1 处理，
+        // 避免 T1Time/BeatTime 变成 0 或 Infinity 后让位置计算整体变成 NaN
+        float bpm = float.IsFinite(LineData.Bpm) && LineData.Bpm > 0 ? LineData.Bpm : 1f;
         if (bpm != LineData.Bpm)
         {
             GD.PrintErr($"判定线 BPM 非法（{LineData.Bpm}），已按 1 处理");

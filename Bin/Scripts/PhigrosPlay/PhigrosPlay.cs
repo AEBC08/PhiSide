@@ -110,6 +110,11 @@ public partial class PhigrosPlay : Node
         int lineId = 0;
         foreach (var lineData in Chart.JudgeLines)
         {
+            // 谱面里把 notesAbove / notesBelow 写成 null 时兜底，
+            // 否则下面的 .Count 取用与后续 NoteInit 的 foreach 都会抛 NRE
+            lineData.NotesAbove ??= new System.Collections.Generic.List<ChartLoader.NoteV3>();
+            lineData.NotesBelow ??= new System.Collections.Generic.List<ChartLoader.NoteV3>();
+
             if (lineData.NotesAbove.Count == 0 && lineData.NotesBelow.Count == 0 && lineData.MoveEvents.Count <= 1 && lineData.RotateEvents.Count <= 1) {continue;}
             JudgeLineNode newLine = (JudgeLineNode)JudgeLineO.Duplicate();
             newLine.LineData = lineData;
