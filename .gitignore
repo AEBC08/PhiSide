@@ -1,20 +1,42 @@
-# Godot 4+ specific ignores
-.godot/
-<<<<<<< HEAD
-/android/
-=======
-.nomedia
+# ============================================================
+# PhiSide — Git 忽略规则
+#
+# 注意：本项目的源码目录名是 `Bin/`（大写 B）。
+#       在 Windows 上文件系统不区分大小写，一旦加入 `bin/`、
+#       `[Bb]in/` 这类规则，会连带把整个源码目录忽略掉。
+#       因此本文件刻意不包含任何 `bin/` 规则。
+#       若将来把 `Bin/` 改名为 `Src/`，即可安全启用 `bin/`。
+# ============================================================
 
-# Godot-specific ignores
-.import/
+# ---------- Godot 4 ----------
+.godot/
+/android/
 export.cfg
 export_credentials.cfg
-
-# Imported translations (automatically generated from CSV files)
 *.translation
 
-# Mono-specific ignores
+# ---------- Godot 导出产物 ----------
+*.apk
+*.aab
+*.pck
+*.zip
+
+# ---------- .NET / C# ----------
 .mono/
 data_*/
 mono_crash.*.json
->>>>>>> 22c7068cfc33a92484298f91eaf69a17f3117074
+obj/
+# Godot 编辑器升级时会生成 PhiSide.csproj.old / .old.1 / .old.2 ...
+*.csproj.old*
+
+# ---------- IDE / 编辑器 ----------
+.idea/
+.vs/
+.vscode/
+PhiSide.sln.DotSettings.user
+*.user
+
+# ---------- 工具生成的临时文件 ----------
+.deepseek/
+.nomedia
+*.tmp

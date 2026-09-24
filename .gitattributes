@@ -1,2 +1,27 @@
-# Normalize EOL for all files that Git considers text files.
+# 统一文本文件行尾为 LF
 * text=auto eol=lf
+
+# 二进制资源禁止行尾转换与文本差异（避免被误判为文本而损坏）
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.webp     binary
+*.ttf      binary
+*.otf      binary
+*.wav      binary
+*.ogg      binary
+*.mp3      binary
+*.apk      binary
+*.aab      binary
+*.pck      binary
+*.zip      binary
+
+# 明确按文本处理的资源，保证跨平台可评审 diff
+*.cs        text
+*.gdshader  text
+*.tscn      text
+*.tres      text
+*.svg       text
+*.json      text
+*.import    text
+*.godot     text
