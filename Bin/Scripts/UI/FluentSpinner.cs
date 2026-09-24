@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class FluentSpinner : Label
 {
     [Export] public int SpinnerVersion = 11;
-    public List<string> SpinnerFrame = new();
+    public List<string> SpinnerFrames = new();
 
     public override void _Ready()
     {
@@ -29,7 +29,7 @@ public partial class FluentSpinner : Label
         {
             try
             {
-                SpinnerFrame.Add(char.ConvertFromUtf32(i));
+                SpinnerFrames.Add(char.ConvertFromUtf32(i));
             }
             catch (Exception e)
             {
@@ -38,20 +38,15 @@ public partial class FluentSpinner : Label
         }
     }
 
-    public int FrameCount;
     public int FrameIndex;
     public override void _Process(double delta)
     {
-        FrameCount++;
-        if (FrameCount >= 1)
+        if (SpinnerFrames.Count == 0) return;
+        if (FrameIndex >= SpinnerFrames.Count)
         {
-            if (FrameIndex >= SpinnerFrame.Count)
-            {
-                FrameIndex = 0;
-            }
-            Text = SpinnerFrame[FrameIndex];
-            FrameIndex++;
-            FrameCount = 0;
+            FrameIndex = 0;
         }
+        Text = SpinnerFrames[FrameIndex];
+        FrameIndex++;
     }
 }
