@@ -206,7 +206,7 @@ namespace PhigrosChart
             line.RotateEvents ??= new List<RotateEventV3>();
             line.DisappearEvents ??= new List<DisappearEventV3>();
 
-            NormalizeEventList(line.SpeedEvents, minStartTime: 0);
+            NormalizeSpeedEventList(line.SpeedEvents);
             NormalizeEventList(line.MoveEvents, MinStart);
             NormalizeEventList(line.RotateEvents, MinStart);
             NormalizeEventList(line.DisappearEvents, MinStart);
@@ -232,6 +232,40 @@ namespace PhigrosChart
             }
 
             // 最后一个事件的 EndTime 扩展到足够大
+            events[^1].EndTime = MaxEnd;
+        }
+
+        // 速度事件列表的规范化与其它事件列表不同：
+        // 文档规定速度事件的第一个 startTime 为 0；若谱面给出的首个时刻不为 0，
+        // 等价于在它之前插入一个 [0, 原首个 startTime] 且 value = 1 的隐式事件
+        // （此时首个事件的 floorPosition 计算值为 startTime / bpm * 1.875）。
+        // 注意不能直接改写首个事件的 startTime，否则 [0, startTime] 区间会错误地
+        // 使用该事件的速度值，导致判定线实时位置与谱面不一致。
+        private static void NormalizeSpeedEventList(List<SpeedEventV3> events)
+        {
+            if (events.Count == 0)
+                return;
+
+            events.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+
+            int firstStartTime = events[0].StartTime;
+            if (firstStartTime > 0)
+            {
+                events.Insert(0, new SpeedEventV3 { StartTime = 0, EndTime = firstStartTime, Value = 1f });
+            }
+            else if (firstStartTime < 0)
+            {
+                // 规范谱面中不会出现负时刻；负值等同于从 0 开始
+                events[0].StartTime = 0;
+            }
+
+            // 与其它事件列表相同的连续性修补与末尾扩展
+            for (int i = 0; i < events.Count - 1; i++)
+            {
+                if (events[i].EndTime != events[i + 1].StartTime)
+                    events[i].EndTime = events[i + 1].StartTime;
+            }
+
             events[^1].EndTime = MaxEnd;
         }
         #endregion
