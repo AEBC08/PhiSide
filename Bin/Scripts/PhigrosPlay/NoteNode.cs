@@ -165,7 +165,8 @@ public partial class NoteNode : Sprite2D
             {
                 OnNoteDestroyed?.Invoke(this, IsAbove);
 
-                LineNode.RootNode.ComboNum++;
+                // autoplay 必定命中：按 Perfect 结算（累计权重并更新连击 / 总分）
+                LineNode.RootNode.OnNoteJudged();
                 QueueFree();
             }
         }
@@ -174,8 +175,101 @@ public partial class NoteNode : Sprite2D
             OnNoteDestroyed?.Invoke(this, IsAbove);
             EffectAudio?.Play();
             SpawnHitEffect();
-            LineNode.RootNode.ComboNum++;
+            // autoplay 必定命中：按 Perfect 结算（累计权重并更新连击 / 总分）
+            LineNode.RootNode.OnNoteJudged();
             QueueFree();
+        }
+    }
+
+
+    // ── 手动演奏接口（判定规则见 PhigrosPlay.Manual.cs）────────────────────
+    // 漏掉 / 松手后的偏暗程度：只是略微变暗变灰，别压太狠（1 = 原色，0.45 会看着像褪色/透明）
+    private const float MissTint = 0.75f;
+
+    public bool Judged;                 // 已结算：命中或漏掉
+    public JudgeGrade JudgedGrade;      // 已结算的等级（Hold 中途松手会改写为 Miss）
+    public bool HoldHeadHit => _holdHeadHit;
+
+    // 判定区半宽：音符沿判定线方向的半宽。
+    // Hold 拆片后自身贴图为空，改用拆片时记下的原贴图宽。
+    public float BandHalfWidth
+    {
+        get
+        {
+            float width = _holdSlicesReady && _holdTexWidth > 0f ? _holdTexWidth : GetRect().Size.X;
+            float half = Mathf.Abs(width * Scale.X) * 0.5f;
+            float min = LineNode?.RootNode?.BandMinHalfWidth ?? 0f;
+            return Mathf.Max(half, min);
+        }
+    }
+
+    // 命中：音效 + 打击特效 + 按 grade 结算。非 Hold 立即销毁；Hold 只标记头已命中。
+    public void ManualHit(JudgeGrade grade)
+    {
+        if (Judged) return;
+
+        if (IsHold)
+        {
+            if (_holdHeadHit) return;
+            _holdHeadHit = true;
+        }
+        else
+        {
+            OnNoteDestroyed?.Invoke(this, IsAbove);
+        }
+
+        Judged = true;
+        JudgedGrade = grade;
+        EffectAudio?.Play();
+        SpawnHitEffect();
+        LineNode.RootNode.OnNoteJudged(grade);
+
+        if (!IsHold) QueueFree();
+    }
+
+    // Hold 中途松手：变暗，并把已结算的判定改写为 Miss（官方：Hold 提前松开就断了）
+    public void BreakHold()
+    {
+        if (!IsHold || !_holdHeadHit || JudgedGrade == JudgeGrade.Miss) return;
+
+        JudgeGrade previous = JudgedGrade;
+        JudgedGrade = JudgeGrade.Miss;
+        Modulate = new Color(MissTint, MissTint, MissTint, Modulate.A);
+        LineNode.RootNode.OnNoteRegraded(previous);
+    }
+
+    // 漏掉：变暗 + 按 Miss 结算。非 Hold 从列表摘除并销毁；Hold 继续显示到结束时刻。
+    public void ManualMiss()
+    {
+        if (Judged) return;
+
+        Judged = true;
+        JudgedGrade = JudgeGrade.Miss;
+        Modulate = new Color(MissTint, MissTint, MissTint, Modulate.A);
+        LineNode.RootNode.OnNoteJudged(JudgeGrade.Miss);
+
+        if (!IsHold)
+        {
+            OnNoteDestroyed?.Invoke(this, IsAbove);
+            QueueFree();
+        }
+    }
+
+    // Hold 走完（含中途松手的）：从列表摘除并销毁
+    public void FinishHold()
+    {
+        OnNoteDestroyed?.Invoke(this, IsAbove);
+        QueueFree();
+    }
+
+    // Hold 判定期间的连击特效：与 AutoPlay 同一套节奏（每 BeatTime 秒一次）
+    public void UpdateHoldBeatEffect()
+    {
+        double nowBeat = LineNode.GameTime / LineNode.BeatTime;
+        if (nowBeat - BeatCount >= 1d)
+        {
+            BeatCount = nowBeat;
+            SpawnHitEffect();
         }
     }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://dja1rail8be2v"]
+[gd_scene format=3 uid="uid://dja1rail8be2v"]
 
 [ext_resource type="Script" uid="uid://bwe3wrnv7ahfo" path="res://Bin/Scripts/PhigrosPlay/JudgeLineNode.cs" id="1_uvu71"]
 [ext_resource type="Texture2D" uid="uid://df827l0i7qb8o" path="res://Assets/Images/White.png" id="2_1nwuw"]
@@ -132,7 +132,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("37_65imx")
 }],
-"loop": false,
+"loop": 0,
 "name": &"default",
 "speed": 60.0
 }]
@@ -223,17 +223,18 @@ _data = {
 &"RESET": SubResource("Animation_6s5vt")
 }
 
-[node name="Objects" type="Node2D"]
+[node name="Objects" type="Node2D" unique_id=117443046]
 
-[node name="JudgeLine" type="Node2D" parent="."]
+[node name="JudgeLine" type="Node2D" parent="." unique_id=658651690]
 position = Vector2(592, 381)
 script = ExtResource("1_uvu71")
 
-[node name="JudgeLine" type="Sprite2D" parent="JudgeLine"]
+[node name="JudgeLine" type="Sprite2D" parent="JudgeLine" unique_id=1696368703]
 scale = Vector2(600, 0.2)
 texture = ExtResource("2_1nwuw")
 
-[node name="LineID" type="Label" parent="JudgeLine"]
+[node name="LineID" type="Label" parent="JudgeLine" unique_id=1062383318]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -248,41 +249,65 @@ theme_override_font_sizes/font_size = 40
 text = "LineID"
 horizontal_alignment = 1
 
-[node name="Notes" type="Node2D" parent="JudgeLine"]
+[node name="Notes" type="Node2D" parent="JudgeLine" unique_id=533135026]
 
-[node name="Tap" type="Sprite2D" parent="."]
+[node name="Tap" type="Sprite2D" parent="." unique_id=410051298]
 position = Vector2(605, 190)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_dfld1")
 script = ExtResource("5_1nwuw")
 
-[node name="Drag" type="Sprite2D" parent="."]
+[node name="Drag" type="Sprite2D" parent="." unique_id=65526848]
 position = Vector2(1109, 554)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_gjlxg")
 script = ExtResource("5_1nwuw")
 
-[node name="Flick" type="Sprite2D" parent="."]
+[node name="Flick" type="Sprite2D" parent="." unique_id=276875003]
 position = Vector2(1739, 146)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("6_uu5o2")
 script = ExtResource("5_1nwuw")
 
-[node name="Hold" type="Sprite2D" parent="."]
-position = Vector2(983, 263)
+[node name="Hold2" type="Node2D" parent="." unique_id=202643883]
+position = Vector2(305, 208)
+scale = Vector2(0.2, 0.2)
+
+[node name="Head" type="Polygon2D" parent="Hold2" unique_id=742036570]
+offset = Vector2(-494.5, -2000)
+texture = ExtResource("7_1tsbl")
+polygon = PackedVector2Array(990, 2000.0001, 990, 1950.0001, 0, 1950, 0, 2000)
+uv = PackedVector2Array(990, 2000.0001, 990, 1950.0001, 0, 1950, 0, 2000)
+
+[node name="Body" type="Polygon2D" parent="Hold2" unique_id=902625232]
+position = Vector2(0, -50)
+offset = Vector2(-494.5, -1950)
+texture = ExtResource("7_1tsbl")
+polygon = PackedVector2Array(990.0001, 1950.0002, 989.99994, 50, 0, 50, 0, 1950)
+uv = PackedVector2Array(990.0001, 1950.0002, 989.99994, 50, 0, 50, 0, 1950)
+
+[node name="Tail" type="Polygon2D" parent="Hold2" unique_id=1419512453]
+position = Vector2(0, -1950)
+offset = Vector2(-494.5, -50)
+texture = ExtResource("7_1tsbl")
+polygon = PackedVector2Array(990.0001, 0, 990.0001, 50.000004, 0, 50.000004, 0, 0)
+uv = PackedVector2Array(990.0001, 0, 990.0001, 50.000004, 0, 50.000004, 0, 0)
+
+[node name="Hold" type="Sprite2D" parent="." unique_id=932200118]
+position = Vector2(1378.9999, 181.99998)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("7_1tsbl")
 offset = Vector2(0, -1000)
 script = ExtResource("5_1nwuw")
 
-[node name="Animation" type="AnimatedSprite2D" parent="."]
+[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1023920072]
 position = Vector2(707, 674)
 sprite_frames = SubResource("SpriteFrames_ltoco")
 autoplay = "default"
 frame = 29
 frame_progress = 1.0
 
-[node name="Particle" type="GPUParticles2D" parent="Animation"]
+[node name="Particle" type="GPUParticles2D" parent="Animation" unique_id=1210813393]
 emitting = false
 amount = 4
 texture = ExtResource("2_1nwuw")
@@ -292,8 +317,6 @@ explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_f3nn8")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
-libraries = {
-&"": SubResource("AnimationLibrary_wqjs8")
-}
-autoplay = "Animation"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation" unique_id=508075061]
+libraries/ = SubResource("AnimationLibrary_wqjs8")
+autoplay = &"Animation"

@@ -1,0 +1,32 @@
+{
+	"disabled_build_options": {
+		"accesskit": false,
+		"disable_3d": true,
+		"disable_navigation_2d": true,
+		"disable_navigation_3d": true,
+		"disable_physics_3d": true,
+		"disable_xr": true,
+		"module_godot_physics_3d_enabled": false,
+		"module_jolt_physics_enabled": false,
+		"module_openxr_enabled": false,
+		"sdl": false
+	},
+	"disabled_classes": [
+		"NavigationAgent2D",
+		"NavigationAgent3D",
+		"Node3D",
+		"Occluder3D",
+		"OpenXRAction",
+		"OpenXRActionMap",
+		"OpenXRActionSet",
+		"OpenXRBindingModifier",
+		"OpenXRHapticBase",
+		"OpenXRIPBinding",
+		"OpenXRInteractionProfile",
+		"Shape3D",
+		"Sky",
+		"Texture3D",
+		"World3D"
+	],
+	"type": "build_profile"
+}

@@ -1,0 +1,357 @@
+[gd_scene format=3 uid="uid://6yk121pkwa7d"]
+
+[ext_resource type="Texture2D" uid="uid://ycmcqp1t6hbp" path="res://Bin/Scenes/Launch/Images/Godot.svg" id="1_54xeh"]
+[ext_resource type="FontFile" uid="uid://c573ovyhoacpb" path="res://Assets/Fonts/MiSansMedium.ttf" id="2_ntjvl"]
+[ext_resource type="Texture2D" uid="uid://bqv0nc03k5kd" path="res://Bin/Scenes/Launch/Images/github.png" id="3_gpx1o"]
+[ext_resource type="Texture2D" uid="uid://d3tuhqou8hw5p" path="res://Bin/Scenes/Launch/Images/github-text.png" id="4_imxka"]
+[ext_resource type="Texture2D" uid="uid://bcdad8jowiirq" path="res://Assets/Test/1.png" id="5_54xeh"]
+[ext_resource type="Shader" uid="uid://byummtbwxd7sr" path="res://Bin/Shaders/BlurShader.gdshader" id="6_jgd0c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bq5jp"]
+shader = ExtResource("6_jgd0c")
+shader_parameter/Blur = 1.0000000475
+
+[sub_resource type="Animation" id="Animation_gpx1o"]
+resource_name = "LaunchAnimation"
+length = 4.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/GodotInfo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background/GitHubInfo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2, 2.5, 3.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Background/GodotInfo:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Background/GitHubInfo:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Background:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Background:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_imxka"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/GodotInfo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background/GitHubInfo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Background/GodotInfo:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Background/GitHubInfo:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Background:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Background:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_54xeh"]
+_data = {
+&"LaunchAnimation": SubResource("Animation_gpx1o"),
+&"RESET": SubResource("Animation_imxka")
+}
+
+[node name="Launch" type="Control" unique_id=2004519973]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="." unique_id=124509775]
+top_level = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GodotInfo" type="Control" parent="Background" unique_id=192472541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GodotLogo" type="TextureRect" parent="Background/GodotInfo" unique_id=729906407]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -528.5
+offset_top = -138.5
+offset_right = 528.5
+offset_bottom = 138.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_54xeh")
+
+[node name="Info" type="Label" parent="Background/GodotInfo" unique_id=1157513349]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_ntjvl")
+theme_override_font_sizes/font_size = 32
+text = "本项目使用开源引擎 Godot 制作
+使用 MIT 开源协议"
+horizontal_alignment = 1
+
+[node name="GitHubInfo" type="Control" parent="Background" unique_id=723772096]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GitHubIcon" type="HBoxContainer" parent="Background/GitHubInfo" unique_id=1559931582]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1362.0
+offset_top = -320.0
+offset_right = 1362.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.389, 0.389)
+pivot_offset = Vector2(1362, 320)
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Background/GitHubInfo/GitHubIcon" unique_id=253280867]
+layout_mode = 2
+texture = ExtResource("3_gpx1o")
+
+[node name="Text" type="TextureRect" parent="Background/GitHubInfo/GitHubIcon" unique_id=713169544]
+layout_mode = 2
+texture = ExtResource("4_imxka")
+
+[node name="Info" type="Label" parent="Background/GitHubInfo" unique_id=859528560]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_ntjvl")
+theme_override_font_sizes/font_size = 32
+text = "本项目已在 GitHub 中完全开源
+使用 GNU GPLv3 开源协议
+PhiSide by AEBC08@github.com"
+horizontal_alignment = 1
+
+[node name="Start" type="Control" parent="." unique_id=707205551]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Start" unique_id=1608098198]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_54xeh")
+expand_mode = 3
+
+[node name="Blur" type="ColorRect" parent="Start/Background" unique_id=784452768]
+material = SubResource("ShaderMaterial_bq5jp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Darkening" type="ColorRect" parent="Start/Background" unique_id=701345348]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3137255)
+
+[node name="Text" type="VBoxContainer" parent="Start/Background" unique_id=1623270336]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="Label" parent="Start/Background/Text" unique_id=180631580]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_ntjvl")
+theme_override_font_sizes/font_size = 139
+text = "PhiSide"
+horizontal_alignment = 1
+
+[node name="Tip" type="Label" parent="Start/Background/Text" unique_id=2093287499]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_ntjvl")
+theme_override_font_sizes/font_size = 40
+text = "Touch to start"
+horizontal_alignment = 1
+
+[node name="LaunchAnimation" type="AnimationPlayer" parent="." unique_id=1196907109]
+libraries/ = SubResource("AnimationLibrary_54xeh")
+autoplay = &"LaunchAnimation"
+speed_scale = 0.5

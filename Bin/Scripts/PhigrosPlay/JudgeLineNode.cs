@@ -12,7 +12,7 @@ public partial class JudgeLineNode : Node2D
 
     public PhigrosPlay RootNode;
 
-    public float ColorMinAlpha = 0.05f;
+    public float ColorMinAlpha = 0.00f;
 
     // 1 T = 1.875 / BPM 秒（文档「谱面格式」：1T 为 1/32 拍）
     public double T1Time;
@@ -34,11 +34,6 @@ public partial class JudgeLineNode : Node2D
     public int DisappearEventsIndex;
     public int MoveEventsIndex;
     public int RotateEventIndex;
-
-    // 音符可见性阈值：文档「Y(t) > 2H 时变得不可见」，其中 2H = 3.3333336 Y
-    private const float MaxVisibleY = 3.3333336f;
-    // 文档 getMaxVisiblePos 中的魔数
-    private const float VisibleMagic = 11718.75f;
 
     public void Init()
     {
@@ -139,6 +134,8 @@ public partial class JudgeLineNode : Node2D
             : (float)(noteData.Speed * currentFloorPosition * RootNode.ViewportV.OneY);
         newNote.Position = new Vector2(noteData.PositionX * RootNode.ViewportV.OneX, -offsetY);
         NotesNode.AddChild(newNote);
+        // 只有真正建出节点的音符（Type 1..4）才计入总数，未知类型不参与计分
+        RootNode.TotalNotes++;
         return newNote;
     }
 
@@ -154,7 +151,7 @@ public partial class JudgeLineNode : Node2D
         }
     }
 
-    public override void _PhysicsProcess(double delta)
+    public override void _Process(double delta)
     {
         if (!RootNode.IsPlaying) return;
         GameTime = RootNode.ChartTime;
@@ -246,7 +243,8 @@ public partial class JudgeLineNode : Node2D
             if (!IsInstanceValid(note)) continue;
             note.Position = new Vector2(note.NoteData.PositionX * RootNode.ViewportV.OneX,
                 ySign * (float)(note.NoteData.Speed * (note.NoteData.FloorPosition - LineFloorPosition) * RootNode.ViewportV.OneY));
-            note.Visible = IsNoteVisible(note.NoteData, false);
+            // 可见性交给场景父节点的 clip_contents 裁剪，代码不再逐音符剔除；
+            // 位置计算与判定照常进行（判定与可见性无关）。
 
             NoteProgress(note);
         }
@@ -274,7 +272,9 @@ public partial class JudgeLineNode : Node2D
             if (!IsInstanceValid(note)) continue;
 
             var noteData = note.NoteData;
-            bool judged = GameTTime >= noteData.Time;
+            // 一到判定线就进入「正常拉伸」（头部钉在判定线上，剩余部分收缩），与是否命中无关：
+            // 漏掉的 Hold 同样这样拉伸，只是要等到漏掉时刻才变灰。
+            bool judged = note.Judged || GameTTime >= noteData.Time;
 
             if (!judged)
             {
@@ -284,7 +284,7 @@ public partial class JudgeLineNode : Node2D
 
                 double lengthY = noteData.Speed * noteData.HoldTime * T1Time;
                 note.UpdateHoldVisual((float)(lengthY * RootNode.ViewportV.OneY), false);
-                note.Visible = IsNoteVisible(noteData, true);
+                // 可见性交给场景父节点的 clip_contents 裁剪，这里不再逐音符剔除
             }
             else
             {
@@ -293,73 +293,40 @@ public partial class JudgeLineNode : Node2D
 
                 double tailY = noteData.Speed * ((double)noteData.Time + noteData.HoldTime - GameTTime) * T1Time;
                 note.UpdateHoldVisual((float)(Math.Max(tailY, 0d) * RootNode.ViewportV.OneY), true);
-                note.Visible = true;
             }
 
             NoteProgress(note);
         }
     }
 
-    // 文档「音符渲染细节」：
-    //   1. 长度（speed 或 holdTime 取整后）为 0 的 Hold 不渲染；
-    //   2. currentFloorPosition < -0.001 且未打击时不渲染；
-    //   3. 判定线实时位置超过 getMaxVisiblePos(音符 floorPosition) 时不渲染；
-    //   4. Y(t) > 2H（即 3.3333336 Y）时不渲染，其中非 Hold 为 η·PN(t)、Hold 头部为 PN(t)。
-    private bool IsNoteVisible(ChartLoader.NoteV3 noteData, bool isHold, bool headHit = false)
-    {
-        if (isHold && (noteData.Speed <= 0f || noteData.HoldTime <= 0))
-        {
-            // 长度为 0 的 Hold 不渲染；判定与连击仍照常处理
-            return false;
-        }
-
-        if (headHit)
-        {
-            // 头部已判定并钉在判定线上：此时 currentFloorPosition 必然变成了负数，
-            // 再按判定线位置剔除会把整条 Hold 提前隐藏
-            return true;
-        }
-
-        double currentFloorPosition = noteData.FloorPosition - LineFloorPosition;
-        if (currentFloorPosition < -0.001) return false;
-
-        float y = (float)(isHold ? currentFloorPosition : noteData.Speed * currentFloorPosition);
-        if (y > MaxVisibleY) return false;
-
-        if ((float)LineFloorPosition > GetMaxVisiblePos(noteData.FloorPosition)) return false;
-
-        return true;
-    }
-
-    // 逐字复刻文档给出的 getMaxVisiblePos：
-    // 当判定线实时位置超过返回值时，该音符不会被渲染。
-    private static float GetMaxVisiblePos(float x)
-    {
-        float n = x;  // C# 的 float 即 float32，等价于文档中的 Math.fround
-        if (!float.IsFinite(n))
-        {
-            // 文档在此抛异常；退化为「不可见」，避免异常冒到 Godot 主循环
-            return float.NegativeInfinity;
-        }
-
-        float prime = n >= VisibleMagic
-            ? MathF.Pow(2f, MathF.Floor(1f + MathF.Log2(n / VisibleMagic)))
-            : 1f;
-
-        double a = (double)n / prime + 0.001;
-        float r = (float)a;
-        if ((double)r <= a) return r * prime;
-
-        // 文档在此把 a 的 float32 位模式向零方向移动 1 ULP 后再乘 prime
-        float aDown = r > 0f || float.IsNegative(r) ? MathF.BitDecrement(r) : MathF.BitIncrement(r);
-        return aDown * prime;
-    }
-
+    // 自动演奏：音符到点即命中。
+    // 手动演奏：到点还没被命中就算漏掉（各类型判定窗口见 PhigrosPlay.Manual.cs）；
+    //           Hold 过完结束时刻收尾（没命中的先按 Miss 结算，免得短 Hold 永远不收尾）。
     public void NoteProgress(NoteNode note)
     {
-        if (GameTTime >= note.NoteData.Time)
+        if (!RootNode.ManualPlay)
         {
-            note.AutoPlay();
+            if (GameTTime >= note.NoteData.Time)
+            {
+                note.AutoPlay();
+            }
+            return;
+        }
+
+        if (note.IsHold && GameTTime >= note.HoldEndTime)
+        {
+            if (!note.Judged) note.ManualMiss();
+            note.FinishHold();
+            return;
+        }
+
+        if (note.Judged) return;
+
+        // 音符时间以本判定线的 T 为单位（1T = 1.875 / BPM 秒）
+        double late = (GameTTime - note.NoteData.Time) * T1Time;
+        if (late > RootNode.MissSecondsOf(note))
+        {
+            note.ManualMiss();
         }
     }
 }
